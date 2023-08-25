@@ -10,4 +10,4 @@ for i in range(0, len(lista)):
 
 lista.sort(reverse=True)
 
-print(lista)
+print(lista[0:5])
