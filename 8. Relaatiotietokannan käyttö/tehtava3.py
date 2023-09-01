@@ -1,18 +1,29 @@
-from geopy.geocoders import Nominatim
 from geopy import distance
+import mysql.connector
+
+def haku(icao1):
+    sql = "SELECT latitude_deg, longitude_deg FROM airport"
+    sql += " WHERE ident='" + icao1 + "'"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return tulos[0]
+
+yhteys = mysql.connector.connect(
+         host='127.0.0.1',
+         port= 3306,
+         database='flight_game',
+         user='root',
+         password='1234',
+         autocommit=True
+         )
 
 icao1 = input("Anna ensimmäisen lentokentän ICAO-Koodi: ")
 icao2 = input("Anna toisen lentokentän ICAO-Koodi: ")
 
-geolocator = Nominatim(user_agent="find_location")
-sijainti1 = geolocator.geocode(icao1)
+sijainti1 = haku(icao1)
+sijainti2 = haku(icao2)
 
-geolocator = Nominatim(user_agent="find_location")
-sijainti2 = geolocator.geocode(icao2)
+matka = round(distance.distance(sijainti1, sijainti2).km)
 
-koordinaatti1 = sijainti1.latitude, sijainti1.longitude
-koordinaatti2 = sijainti2.latitude, sijainti2.longitude
-
-kilometrit = distance.distance(koordinaatti1, koordinaatti2).km
-
-print("Lentokenttien välinen pituus on " + str(kilometrit) + " km")
+print(f"Lentokenttien välinen matka on {matka} km")
