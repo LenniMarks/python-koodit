@@ -24,5 +24,31 @@ class Hissi:
         else:
             print(f'Hissi on jo {kerros} kerroksessa')
 
+class Talo:
+    def __init__(self, alas_kerros, ylos_kerros, hissit):
+        self.alas_kerros = alas_kerros
+        self.ylos_kerros = ylos_kerros
+        self.hissit = [Hissi(alas_kerros, ylos_kerros) for i in range(hissit)]
+
+    def aja_hissiä(self, hissin_numero, kerros):
+        if 0 <= hissin_numero < len(self.hissit):
+            hissi = self.hissit[hissin_numero]
+            hissi.siirry_kerrokseen(kerros)
+        else:
+            print(f'Hissiä numero {hissin_numero} ei ole talossa.')
+    def palohälytys(self):
+        print("Palohälytys. Kaikki hissit pohjakerrokseen.")
+        for hissi in self.hissit:
+            hissi.siirry_kerrokseen(self.alas_kerros)
+
 hissi = Hissi(alas_kerros=1, ylos_kerros=5)
 hissi.siirry_kerrokseen(5)
+
+talo = Talo(alas_kerros=1, ylos_kerros=10, hissit=2)
+
+talo.aja_hissiä(0, 5)
+talo.aja_hissiä(1, 8)
+
+talo.palohälytys()
+
+
