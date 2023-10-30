@@ -1,27 +1,40 @@
 class Auto:
-    def __init__(self, rekisteritunnus, huippunopeus):
+    def __init__(self, rekisteritunnus, huippunopeus, nopeus = 0):
         self.rekisteritunnus = rekisteritunnus
         self.huippunopeus = huippunopeus
-        self.taman_hetkinen_nopeus = 0
+        self.nopeus = nopeus
         self.kuljettu_matka = 0
 
-    def kiihdytys(self, nopeus):
-        self.taman_hetkinen_nopeus = self.taman_hetkinen_nopeus + nopeus
-        if self.taman_hetkinen_nopeus > self.huippunopeus:
-            self.taman_hetkinen_nopeus = self.taman_hetkinen_nopeus = self.huippunopeus
-        if self.taman_hetkinen_nopeus < 0:
-            self.taman_hetkinen_nopeus = 0
-        return
-    
     def kulje(self, aika):
-        matka = self.taman_hetkinen_nopeus * aika
+        matka = self.nopeus * aika
         self.kuljettu_matka += matka
-   
-auto = Auto("ABC-123", 142,)
-auto.kiihdytys(+30)
-auto.kiihdytys(+70)
-auto.kiihdytys(+50)
-auto.kiihdytys(-200)
-auto.kulje(1.5)
 
-print (f"Auton rekisteritunnus on {auto.rekisteritunnus}, Auton huippunopeus on {auto.huippunopeus}, Auton tämän hetkinen nopeus on {auto.taman_hetkinen_nopeus} ja Auton kuljettu matka on {auto.kuljettu_matka}.")
+    def tulosta_tiedot(self):
+        print(self.rekisteritunnus)
+class Sähköauto(Auto):
+
+    def __init__(self, rekisteritunnus, huippunopeus, akkukapasiteetti, nopeus):
+        self.nopeus = nopeus
+        super().__init__(rekisteritunnus, huippunopeus, nopeus)
+
+    def tulosta_tiedot(self):
+        super().tulosta_tiedot()
+        print(f" Auton matkamittarilukema on {self.kuljettu_matka}")
+
+class Polttomoottoriauto(Auto):
+
+    def __init__(self, rekisteritunnus, huippunopeus, bensatankin_koko, nopeus):
+        self.nopeus = nopeus
+        super().__init__(rekisteritunnus, huippunopeus, nopeus)
+
+    def tulosta_tiedot(self):
+        super().tulosta_tiedot()
+        print(f" Auton matkamittarilukema on {self.kuljettu_matka}")
+   
+autot = []
+autot.append(Sähköauto("ABC-15", 180, 52.5, 125))
+autot.append(Polttomoottoriauto("ACD-123",165, 32.3, 155))
+
+for t in autot:
+    t.kulje(3)
+    t.tulosta_tiedot()
